@@ -56,33 +56,9 @@ void setup_TUIO()
 // from the TuioProcessing client and then loops over all lists to draw the graphical feedback.
 void draw_TUIO()
 {
-  textFont(font,18*scale_factor);
-  float obj_size = object_size*scale_factor; 
-  float cur_size = cursor_size*scale_factor; 
-   
+  textFont(font,18*scale_factor);   
   ArrayList<TuioObject> tuioObjectList = tuioClient.getTuioObjectList();
-  for (int i=0;i<tuioObjectList.size();i++) {
-     TuioObject tobj = tuioObjectList.get(i);
-     
-     // Grabs the fiducial's coordinates
-     
-     int tobj_x = tobj.getScreenX(width);
-     int tobj_y = tobj.getScreenY(height);
-     
-     // set the color for the stroke and fill of the fiducial objects
-     stroke(0,102,153);
-     fill(0,0,0);
-     
-     // draw a rectangle around the fiducial
-     pushMatrix();
-     translate(tobj_x,tobj_y);
-     rotate(tobj.getAngle());
-     rect(-obj_size/2,-obj_size/2,obj_size,obj_size);
-     popMatrix();
-     fill(255);
-     text(""+tobj.getSymbolID(), tobj_x, tobj_y);
-   }
-   
+  
    /* -------------------------------------------------------------
    --- FEDUCIAL DETECTION (ENVIRONMENT AND OBJECT CHANGES) -----
    --------------------------------------------------------------- */
@@ -93,46 +69,11 @@ void draw_TUIO()
    } else {
      determineScreen(0);
    }
-   
-   ArrayList<TuioCursor> tuioCursorList = tuioClient.getTuioCursorList();
-   for (int i=0;i<tuioCursorList.size();i++) {
-      TuioCursor tcur = tuioCursorList.get(i);
-      ArrayList<TuioPoint> pointList = tcur.getPath();
-      
-      if (pointList.size()>0) {
-        stroke(0,0,255);
-        TuioPoint start_point = pointList.get(0);
-        for (int j=0;j<pointList.size();j++) {
-           TuioPoint end_point = pointList.get(j);
-           line(start_point.getScreenX(width),start_point.getScreenY(height),end_point.getScreenX(width),end_point.getScreenY(height));
-           start_point = end_point;
-        }
-        
-        stroke(192,192,192);
-        fill(192,192,192);
-        ellipse( tcur.getScreenX(width), tcur.getScreenY(height),cur_size,cur_size);
-        fill(0);
-        text(""+ tcur.getCursorID(),  tcur.getScreenX(width)-5,  tcur.getScreenY(height)+5);
-      }
-   }
-   
-  ArrayList<TuioBlob> tuioBlobList = tuioClient.getTuioBlobList();
-  for (int i=0;i<tuioBlobList.size();i++) {
-     TuioBlob tblb = tuioBlobList.get(i);
-     stroke(0);
-     fill(0);
-     pushMatrix();
-     translate(tblb.getScreenX(width),tblb.getScreenY(height));
-     rotate(tblb.getAngle());
-     ellipse(-1*tblb.getScreenWidth(width)/2,-1*tblb.getScreenHeight(height)/2, tblb.getScreenWidth(width), tblb.getScreenWidth(width));
-     popMatrix();
-     fill(255);
-     text(""+tblb.getBlobID(), tblb.getScreenX(width), tblb.getScreenX(width));
-   }
 }
 
 // Determines what the screen is based on the given fiducial
-void determineScreen(int index) {  
+void determineScreen(int index) {
+  
   if(index >= 0 && index <= 4) {
     bg = loadImage(environments[index]);
   } else {
@@ -140,6 +81,14 @@ void determineScreen(int index) {
   }
   bg.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
   background(bg);
+  
+  // If the movie fiducial is present
+  if(index == 5) {
+    farmerScene.play();
+    translate(0,720);
+    rotate(radians(-90));
+    image(farmerScene, 0, 0);
+  }
 }
 
 // --------------------------------------------------------------

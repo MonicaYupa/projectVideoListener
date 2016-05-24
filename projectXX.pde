@@ -1,12 +1,15 @@
+import processing.video.*;
+
 /*
 This is the main code for the project.
 Contains the setup() and draw() function.
 */
 
 // Global variables
-int WINDOW_HEIGHT = 500;
-int WINDOW_WIDTH = 700;
+int WINDOW_HEIGHT = 720;
+int WINDOW_WIDTH = 1280;
 
+Movie farmerScene;
 String[] environments = new String[5];
 PImage bg = null;
 PImage welcome = null;
@@ -16,19 +19,23 @@ void setup()
 {
   // GUI setup; this sets the relevant parameters for the size of the screen, and framerate.
   size(WINDOW_WIDTH, WINDOW_HEIGHT);
-  frameRate(15);
-  
+  frameRate(30);
   setupEnvironments();
   setup_TUIO();
 }
 
 void setupEnvironments()
 {
+  farmerScene = new Movie(this, "test.mov");
+  
+  
+  background(255,255,255); // white
   welcome = loadImage("welcome.png");
   welcome.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
   if(bg == null) {
     background(welcome);
   }
+  
   
   // Initialize environment images
   environments[0] = "start.png"; // Start screen
@@ -40,8 +47,11 @@ void setupEnvironments()
 
 void draw() 
 {  
+  background(255,255,255);
   draw_TUIO();  
 
-  //float time = abs(second() - startTime);
-  //println(time);
+}
+
+void movieEvent(Movie m) {
+  m.read();
 }
