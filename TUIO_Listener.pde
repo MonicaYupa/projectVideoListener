@@ -86,12 +86,12 @@ void draw_TUIO()
    /* -------------------------------------------------------------
    --- FEDUCIAL DETECTION (ENVIRONMENT AND OBJECT CHANGES) -----
    --------------------------------------------------------------- */
-   // Make Wall-E fall at the gravity of the selected planet
+   // Determine which fiducials are present on the screen
    if(tuioObjectList.size() > 0) {
      TuioObject last = tuioObjectList.get(0); // Each new fiducial is added to start of arraylistpr
-     determinePlanet(last.getSymbolID());  
+     determineScreen(last.getSymbolID());  
    } else {
-     determinePlanet(0);
+     determineScreen(0);
    }
    
    ArrayList<TuioCursor> tuioCursorList = tuioClient.getTuioCursorList();
@@ -131,18 +131,15 @@ void draw_TUIO()
    }
 }
 
-// Determines what the planet is based on the given fiducial
-void determinePlanet(int index) {  
-  if(index >= 0 && index <= 8) {
-    planet = loadImage(environments[index]);
-    gravity = gravityArray[index];
+// Determines what the screen is based on the given fiducial
+void determineScreen(int index) {  
+  if(index >= 0 && index <= 4) {
+    bg = loadImage(environments[index]);
   } else {
-    planet = stanford; //Default to stanford
-    gravity = gravityArray[0];
+    bg = welcome; //Default to welcome screen
   }
-  planet.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
-  background(planet);
-  image(walle, position_x, position_y);
+  bg.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
+  background(bg);
 }
 
 // --------------------------------------------------------------
