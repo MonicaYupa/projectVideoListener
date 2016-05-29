@@ -62,25 +62,22 @@ void draw_TUIO()
   textFont(font,18*scale_factor);   
   ArrayList<TuioObject> tuioObjectList = tuioClient.getTuioObjectList();
   
+  if (videoTriggered) {
+    farmerScene.play();
+    image(farmerScene, 0, 0);
+  }
+  
    /* -------------------------------------------------------------
    --- FEDUCIAL DETECTION (ENVIRONMENT AND OBJECT CHANGES) -----
    --------------------------------------------------------------- */
    // Determine which fiducials are present on the screen
    if(tuioObjectList.size() > 0) {
      TuioObject last = tuioObjectList.get(0); // Each new fiducial is added to start of arraylist
-     determineVideoPlayback(last.getSymbolID());  
+     if (last.getSymbolID() == 0) {
+       // TODO: Determine when the coffee cup enters the video playback zone
+       videoTriggered = true;
+     }
    }
-}
-
-// Determines what the screen is based on the given fiducial
-void determineVideoPlayback(int index) {
-  if ((index == 0 || videoTriggered) && !videoEnd) {
-    videoTriggered = true;
-    farmerScene.play();
-    image(farmerScene, 0, 0);
-  } else {
-    background(0,0,0); // black screen
-  }
 }
 
 // --------------------------------------------------------------
