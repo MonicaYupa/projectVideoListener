@@ -40,6 +40,9 @@ PFont font;
 boolean verbose = false; // print console debug messages
 boolean callback = true; // updates only after callbacks
 
+boolean videoTriggered = false;
+boolean videoEnd = false;
+
 void setup_TUIO()
 {
   
@@ -64,30 +67,19 @@ void draw_TUIO()
    --------------------------------------------------------------- */
    // Determine which fiducials are present on the screen
    if(tuioObjectList.size() > 0) {
-     TuioObject last = tuioObjectList.get(0); // Each new fiducial is added to start of arraylistpr
-     determineScreen(last.getSymbolID());  
-   } else {
-     determineScreen(0);
+     TuioObject last = tuioObjectList.get(0); // Each new fiducial is added to start of arraylist
+     determineVideoPlayback(last.getSymbolID());  
    }
 }
 
 // Determines what the screen is based on the given fiducial
-void determineScreen(int index) {
-  
-  if(index >= 0 && index <= 4) {
-    bg = loadImage(environments[index]);
-  } else {
-    bg = welcome; //Default to welcome screen
-  }
-  bg.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
-  background(bg);
-  
-  // If the movie fiducial is present
-  if(index == 5) {
+void determineVideoPlayback(int index) {
+  if ((index == 0 || videoTriggered) && !videoEnd) {
+    videoTriggered = true;
     farmerScene.play();
-    translate(0,720);
-    rotate(radians(-90));
     image(farmerScene, 0, 0);
+  } else {
+    background(0,0,0); // black screen
   }
 }
 

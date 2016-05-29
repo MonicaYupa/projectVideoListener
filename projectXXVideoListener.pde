@@ -6,8 +6,8 @@ Contains the setup() and draw() function.
 */
 
 // Global variables
-int WINDOW_HEIGHT = 720;
-int WINDOW_WIDTH = 1280;
+int WINDOW_HEIGHT = 540;
+int WINDOW_WIDTH = 950;
 
 Movie farmerScene;
 String[] environments = new String[5];
@@ -26,28 +26,12 @@ void setup()
 
 void setupEnvironments()
 {
-  farmerScene = new Movie(this, "test.mov");
-  
-  
-  background(255,255,255); // white
-  welcome = loadImage("welcome.png");
-  welcome.resize(WINDOW_WIDTH, WINDOW_HEIGHT);
-  if(bg == null) {
-    background(welcome);
-  }
-  
-  
-  // Initialize environment images
-  environments[0] = "start.png"; // Start screen
-  environments[1] = "node1.png";
-  environments[2] = "node2.png";
-  environments[3] = "node3.png";
-  environments[4] = "hulling.png";
+  farmerScene = new Movie(this, "farmerScene.mp4");
+  background(0,0,0); // black
 }
 
 void draw() 
 {  
-  background(255,255,255);
   draw_TUIO();  
 
 }
