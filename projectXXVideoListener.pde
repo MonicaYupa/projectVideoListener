@@ -21,7 +21,7 @@ void setup()
   size(WINDOW_WIDTH, WINDOW_HEIGHT);
   frameRate(30);
   setupEnvironments();
-  setup_TUIO();
+  setup_TUIO();  
 }
 
 void setupEnvironments()
