@@ -40,7 +40,15 @@ PFont font;
 boolean verbose = false; // print console debug messages
 boolean callback = true; // updates only after callbacks
 
-boolean videoTriggered = false;
+boolean farmerSceneTriggered = false;
+boolean timelineVid1Triggered = false;
+boolean timelineVid2Triggered = false;
+boolean timelineVid3Triggered = false;
+boolean timelineVid4Triggered = false;
+boolean timelineVid5Triggered = false;
+//boolean cupPlaceTriggered = false;
+//boolean cupGrabTriggered = false;
+
 boolean videoEnd = false;
 
 void setup_TUIO()
@@ -57,15 +65,42 @@ void setup_TUIO()
 
 // within the draw method we retrieve an ArrayList of type <TuioObject>, <TuioCursor> or <TuioBlob>
 // from the TuioProcessing client and then loops over all lists to draw the graphical feedback.
-void draw_TUIO()
-{
+void draw_TUIO() {
   textFont(font,18*scale_factor);   
   ArrayList<TuioObject> tuioObjectList = tuioClient.getTuioObjectList();
-  
-  if (videoTriggered) {
+  if (timelineVid1Triggered) {
+    timelineVid1.play();
+    image(timelineVid1, 0, 0);
+  }
+  if (timelineVid2Triggered) {
+    timelineVid2.play();
+    image(timelineVid2, 0, 0);
+  }
+  if (timelineVid3Triggered) {
+    timelineVid3.play();
+    image(timelineVid3, 0, 0);
+  }
+  if (timelineVid4Triggered) {
+    timelineVid4.play();
+    image(timelineVid4, 0, 0);
+  }
+  if (timelineVid5Triggered) {
+    timelineVid5.play();
+    image(timelineVid5, 0, 0);
+  }
+  if (farmerSceneTriggered) {
     farmerScene.play();
     image(farmerScene, 0, 0);
   }
+//  if (cupGrabTriggered) {
+//    cupGrab.play();
+//    image(cupGrab, 0, 0);
+//  }
+//  if (cupPlaceTriggered) {
+//    cupPlace.play();
+//    image(cupPlace, 0, 0);
+//  }
+  
   
    /* -------------------------------------------------------------
    --- FEDUCIAL DETECTION (ENVIRONMENT AND OBJECT CHANGES) -----
@@ -73,10 +108,42 @@ void draw_TUIO()
    // Determine which fiducials are present on the screen
    if(tuioObjectList.size() > 0) {
      TuioObject last = tuioObjectList.get(0); // Each new fiducial is added to start of arraylist
-     if (last.getSymbolID() == 0) {
-       // TODO: Determine when the coffee cup enters the video playback zone
-       videoTriggered = true;
-     }
+//     if (checkCupTriggered(last, table_size * 1*(100/6), table_size * (100/5))) { // trigger timelineVid1
+       if (last.getSymbolID() == 1) { // trigger timelineVid1
+         //LOAD VID1
+         timelineVid1Triggered = true;
+       }
+//     else if (checkCupTriggered(last, table_size * 2*(100/6), table_size * (100/5))) { // trigger timelineVid2
+       else if (last.getSymbolID() == 2) { // trigger timelineVid2
+         //LOAD VID2
+         timelineVid2Triggered = true;
+       }
+//     else if (checkCupTriggered(last, table_size * 3*(100/6), table_size * (100/5))) { // trigger timelineVid3 
+       else if (last.getSymbolID() == 3) { // trigger timelineVid3
+         //LOAD VID3
+         timelineVid3Triggered = true;
+       } 
+//     else if (checkCupTriggered(last, table_size * 4*(100/6), table_size * (100/5))) { // trigger timelineVid4
+       else if (last.getSymbolID() == 4) { // trigger timelineVid4
+         //LOAD VID4
+         timelineVid4Triggered = true;
+       }
+//     else if (checkCupTriggered(last, table_size *5*(100/6), table_size * (100/5))) { // trigger timelineVid5
+       else if (last.getSymbolID() == 5) { // trigger timelineVid5
+         //LOAD VID5
+         timelineVid5Triggered = true;
+         delay(1000); //wait 1 second
+         //LOAD FARMER VIDEO
+         farmerSceneTriggered = true;
+       } 
+       else { // Default to black screen
+          background(0,0,0); // black
+       }
+    
+//     if (last.getSymbolID() == 0) {
+//       // TODO: Determine when the coffee cup enters the video playback zone
+//       farmerSceneTriggered = true;
+//     }
    }
 }
 
