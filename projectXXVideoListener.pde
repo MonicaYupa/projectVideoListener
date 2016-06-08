@@ -13,7 +13,7 @@ int WINDOW_WIDTH = 950;
 Capture cam = null;
 
 Movie farmerScene;
-Movie timelineScene;
+Movie timelineVideo;
 //Movie timelineVid1;
 //Movie timelineVid2;
 //Movie timelineVid3;
@@ -31,6 +31,7 @@ void setup()
   frameRate(30);
   setupEnvironments();
   setup_TUIO();
+  background(#000000);
   
   // Webcam setup
   String[] cameras = Capture.list();
@@ -47,7 +48,7 @@ void setup()
 void setupEnvironments()
 {
   farmerScene = new Movie(this, "farmerScene.mp4");
-  timelineVideo = new Movie(this, "onevideo.mp4");
+  timelineVideo = new Movie(this, "onevideo.mov");
 //  timelineVid1 = new Movie(this, "p1small.mov");
 //  timelineVid2 = new Movie(this, "p2small.mov");
 //  timelineVid3 = new Movie(this, "p3small.mov");

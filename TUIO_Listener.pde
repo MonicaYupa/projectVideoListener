@@ -137,8 +137,8 @@ void draw_TUIO() {
    // Determine which fiducials are present on the screen
    if(tuioObjectList.size() > 0) {
      TuioObject last = tuioObjectList.get(0); // Each new fiducial is added to start of arraylist
-     float timeline_md = timelineVideo.duration();
-     float timeline_mt = timelineVideo.time();
+     float md = timelineVideo.duration();
+     float mt = timelineVideo.time();
      
      if (checkCupPosition(last, 5.0*table_size/6.0, table_size/6.0) && timeCheck(1, mt, md)) {
        timelineVideo.play();
